@@ -1,2 +1,3 @@
-# competitive-programming
-My code for competitive programming
+# 競技プログラミング ソースコード置き場
+## 注意点
+ACしているとは限りません
