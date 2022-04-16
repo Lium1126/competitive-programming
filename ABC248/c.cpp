@@ -13,19 +13,21 @@ using mint = atcoder::modint998244353;
 
 ll n, m, k;
 
-mint solve(ll sum, ll cnt) {
-	if (cnt == n) return (sum <= k ? 1 : 0);
-	mint rec = 0;
-	for (ll i = 1;i <= m;i++) {
-		if (sum + i <= k) rec += solve(sum + i, cnt + 1);
-	}
-	return rec;
-}
-
 int main() {
 	cin >> n >> m >> k;
 	
-	cout << solve(0, 0).val() << endl;
+	vector<vector<mint>> dp(55, vector<mint>(2505, 0));
+	dp[0][0] = 1;
+	rep(i, n) {
+		rep(j, k) {
+			for (ll cnt = 1;cnt <= m;cnt++) {
+				if (j + cnt <= k) dp[i + 1][j + cnt] += dp[i][j];
+			}
+		}
+	}
+	mint ans = 0;
+	for (ll i = 1;i <= k;i++) ans += dp[n][i];
+	cout << ans.val() << endl;
 
 	return 0;
 }

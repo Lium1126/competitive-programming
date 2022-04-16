@@ -20,37 +20,36 @@ vector<P> v(305);
 
 int main() {
 	cin >> n >> k;
-	set<pair<double, double>> ans;
 	double x, y;
+	ll ans = 0;
 	rep(i, n) {
 		cin >> x >> y;
 		v[i] = (P){x, y};
 	}
 
-	if (n == 1 || k == 1) cout << "Infinity" << endl;
-	else {
-		rep(i, n) {
-			for (ll j = i + 1;j < n;j++) {
-				double d, r;
-				if (v[i].x == v[j].x) d = __DBL_MAX__;
-				else d = (v[j].y - v[i].y) / (v[j].x - v[i].x);
-				if (v[i].x == v[j].x) r = v[i].x;
-				else r = v[j].y - d * v[j].x;
-
+	if (k == 1) { cout << "Infinity" << endl; return 0; }
+	
+	vector<vector<bool>> mem(305, vector<bool>(305, true));
+	rep(i, n) {
+		for (ll j = i + 1;j < n;j++) {
+			if (mem[i][j]) {
+				P a = v[i], b = v[j];
 				ll cnt = 2;
+				vector<ll> idx; idx.push_back(i); idx.push_back(j);
 				rep(ii, n) {
 					if (ii == i || ii == j) continue;
-					else {
-						if (d == __DBL_MAX__) cnt += (v[ii].x == v[i].x ? 1 : 0);
-						else if (v[ii].y == d * v[ii].x + r) cnt++;
-					}
+					P p = v[ii];
+					if ((b.x - a.x) * (p.y - a.y) == (b.y - a.y) * (p.x - a.x)) idx.push_back(ii);
 				}
-				if (cnt >= k) {
-					ans.insert(make_pair(d, r));
+
+				if (idx.size() >= k) {
+					ans++;
+					for (ll x : idx) for (ll y : idx) mem[x][y] = mem[y][x] = false;
 				}
 			}
 		}
-		cout << ans.size() << endl;
 	}
+	cout << ans << endl;
+
 	return 0;
 }
