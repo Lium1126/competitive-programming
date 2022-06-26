@@ -32,33 +32,29 @@ int main() {
 		p[i] = Power;
 	}
 
-	ll l = 1, r = 1000000000LL;
-    while (r - l > 1) {
-        int mid = l + (r - l) / 2;
-
-		ll s = 0;
-		for (ll i = 1;i <= n;i++) {
-			queue<ll> que;
-			vector<bool> visited(n + 1, false);
-			que.push(i);
-			ll sum = 0;
-			while(!que.empty()) {
-				ll now = que.front(); que.pop();
-				sum++;
-				visited[now] = true;
-				for (ll j = 1;j <= n;j++) {
-					if (now == j) continue;
-					if (p[now] * mid >= dist(d[now], d[j]) && !visited[j]) que.push(j);
-				}
-			}
-			s = max(s, sum);
+	vector<vector<ll>> g(205, vector<ll>(205, __LONG_LONG_MAX__));
+	for (ll i = 1;i <= n;i++) {
+		for (ll j = 1;j <= n;j++) {
+			g[i][j] = (dist(d[i], d[j]) + p[i] - 1) / p[i];
 		}
+	}
 
-		if (s == n) r = mid;
-		else l = mid;
-    }
+	for (ll i = 1;i <= n;i++) {
+		for (ll j = 1;j <= n;j++) {
+			for (ll k = 1;k <= n;k++) {
+				g[j][k] = min(g[j][k], max(g[j][i], g[i][k]));
+			}
+		}
+	}
 
-	cout << r << endl;
+	ll ans = __LONG_LONG_MAX__;
+	for (ll i = 1;i <= n;i++) {
+		ll tmp = 0;
+		for (ll j = 1;j <= n;j++) tmp = max(tmp, g[i][j]);
+		ans = min(ans, tmp);
+	}
+
+	cout << ans << endl;
 
 	return 0;
 }
