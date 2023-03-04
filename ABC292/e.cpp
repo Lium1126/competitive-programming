@@ -5,6 +5,7 @@
 #include <queue>
 #include <set>
 #include <map>
+#include <stdio.h>
 #include <atcoder/all>
 
 #define ll long long
@@ -18,27 +19,34 @@ using namespace std;
 
 int main() {
 	ll n, m, u, v;
+	ll ans = 0;
 	cin >> n >> m;
 
-	vector<set<ll>> from(n), to(n);
+	vector<set<ll>> e(n + 1);
 	rep(i, m) {
 		cin >> u >> v;
-		u--; v--;
-		to[u].insert(v);
-		from[v].insert(u);
+		e[u].insert(v);
 	}
-	ll ans = 0;
 
-	rep(i, n) {
-		for (auto from_itr = from[i].begin();from_itr != from[i].end();from_itr++) {
-			for (auto to_itr = to[i].begin();to_itr != to[i].end();to_itr++) {
-				if (to[*from_itr].find(*to_itr) == to[*from_itr].end()) {
-					ans++;
-					cout << *from_itr+1 << " -> (" << i+1 << ") -> " << *to_itr+1 << endl;
-					to[*from_itr].insert(*to_itr);
-					from[*to_itr].insert(*from_itr);
-				}
-			}
+	irep(i, n) {
+		vector<bool> visited(n + 1, false);
+		set<ll> canarrive;
+		queue<ll> que;
+		que.push(i);
+
+		while (!que.empty()) {
+			ll now = que.front(); que.pop();
+			visited[now] = true;
+			canarrive.insert(now);
+			for (auto itr = e[now].begin();itr != e[now].end();itr++) 
+				if (!visited[*itr]) que.push(*itr);
+		}
+
+		//printf("%ld\n", i);
+		for (auto itr = canarrive.begin();itr != canarrive.end();itr++) {
+			if (i == *itr) continue;
+			//printf("\t%ld\n", *itr);
+			if (e[i].find(*itr) == e[i].end()) ans++;
 		}
 	}
 
