@@ -21,6 +21,15 @@ using namespace atcoder;
 typedef pair<ll, ll> P;
 
 int main() {
-	
+	ll h, w;
+	cin >> h >> w;
+	vector<vector<ll>> m(h, vector<ll>(w));
+	rep (i, h) {
+		rep (j, w) {
+			cin >> m[i][j];
+			printf("%c", m[i][j] == 0 ? '.' : 'A' + (m[i][j] - 1));
+		}
+		cout << endl;
+	}
 	return 0;
 }

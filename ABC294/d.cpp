@@ -21,6 +21,25 @@ using namespace atcoder;
 typedef pair<ll, ll> P;
 
 int main() {
-	
+	ll n, q;
+	cin >> n >> q;
+	queue<ll> wait;
+	set<ll> called;
+	irep(i, n) wait.push(i);
+
+	ll cmd, num;
+	//cout << "----" << endl;
+	rep (i, q) {
+		cin >> cmd;
+		if (cmd == 1) {
+			called.insert(wait.front()); wait.pop();
+		} else if (cmd == 2) {
+			cin >> num;
+			called.erase(num);
+		} else {
+			cout << *(called.begin()) << endl;
+		}
+	}
+
 	return 0;
 }

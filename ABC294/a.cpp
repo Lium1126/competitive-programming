@@ -21,6 +21,12 @@ using namespace atcoder;
 typedef pair<ll, ll> P;
 
 int main() {
-	
+	ll n, a;
+	cin >> n;
+	rep (i, n) {
+		cin >> a;
+		if (a % 2 == 0) cout << a << ' ';
+	}
+	cout << endl;
 	return 0;
 }
