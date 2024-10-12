@@ -53,7 +53,7 @@ int main() {
 
 	irep(i, n) {
 		irep(j, n) {
-			P dst = solve(P{i, j}, v[i][j]);
+			P dst = solve(P{i, j}, v[i][j] % 4);
 			// cout << i << ' ' << j << "(" << v[i][j] << "): " << dst.first << ' ' << dst.second << endl;
 			c[dst.first][dst.second] = m[i][j];
 		}
