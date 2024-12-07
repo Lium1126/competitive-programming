@@ -43,13 +43,25 @@ int main() {
 		}
 	}
 
-	rep(i, pr.size()) if (multipow(pr[i]) <= n) ans++;
+	vector<ll> prp;
+	for (ll tmp : pr) {
+		ans += multipow(tmp) <= n ? 1 : 0;
+		prp.push_back(tmp * tmp);
+	}
 
-	ll q_idx = pr.size() - 1;
-	for (ll i = 0;i < pr.size() && i < q_idx;i++) {
-		for (;pr[i]*pr[i]*pr[q_idx]*pr[q_idx] > n;q_idx--);
-		// cout << pr[i] << ' ' << pr[q_idx] << endl;
-		ans += i < q_idx ? q_idx - i : 0ULL;
+	rep(i, prp.size()) {
+		ll p = prp[i];
+		    int left = -1;
+			int right = (int)prp.size();
+			
+			while (right - left > 1) {
+				int mid = left + (right - left) / 2;
+
+				if (prp[i]*prp[mid] > n) right = mid;
+				else left = mid;
+			}
+			
+			if (i <= left && left != -1) ans += left - i;
 	}
 
 	cout << ans << endl;
