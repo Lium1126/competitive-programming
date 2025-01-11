@@ -61,7 +61,7 @@ int main() {
 		}
 	}
 
-	que2.push(PP(s, P(false, 0)));
+	que2.push(PP(s, P(true, 0)));
 	d2[s.first][s.second] = 0;
 	tmp = m;
 	tmp[s.first][s.second] = '#';
